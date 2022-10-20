@@ -10,6 +10,8 @@ public class M2Mqtt_JJ : MonoBehaviour
     [SerializeField] M2MqttUnity_JJ m2MqttUnityClient;
     [SerializeField] UnityEngine.UI.InputField topicInputField;
 
+
+
     public void _Subscribe()
     {
         string topic = topicInputField.text;

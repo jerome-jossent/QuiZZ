@@ -41,6 +41,7 @@ namespace M2MqttUnity.Examples
     /// </summary>
     public class M2MqttUnityTest : M2MqttUnityClient
     {
+
         [Tooltip("Set this to true to perform a testing cycle automatically on startup")]
         public bool autoTest = false;
         [Header("User Interface")]
@@ -53,8 +54,9 @@ namespace M2MqttUnity.Examples
         public Button testPublishButton;
         public Button clearButton;
 
-        private List<string> eventMessages = new List<string>();
+        private List<MqttMessage_jj> eventMessages = new List<MqttMessage_jj>();
         private bool updateUI = false;
+
 
         public void TestPublish()
         {
@@ -208,7 +210,9 @@ namespace M2MqttUnity.Examples
         {
             string msg = System.Text.Encoding.UTF8.GetString(message);
             Debug.Log("Received: " + msg);
-            StoreMessage(msg);
+            MqttMessage_jj m = new MqttMessage_jj(topic, msg);
+            StoreMessage(m);
+
             if (topic == "M2MQTT_Unity/test")
             {
                 if (autoTest)
@@ -219,14 +223,14 @@ namespace M2MqttUnity.Examples
             }
         }
 
-        private void StoreMessage(string eventMsg)
+        private void StoreMessage(MqttMessage_jj eventMsg)
         {
             eventMessages.Add(eventMsg);
         }
 
-        private void ProcessMessage(string msg)
+        public void ProcessMessage(MqttMessage_jj msg)
         {
-            AddUiMessage("Received: " + msg);
+            AddUiMessage("ProcessMessage (BASE): " + msg.message);
         }
 
         protected override void Update()
@@ -235,16 +239,13 @@ namespace M2MqttUnity.Examples
 
             if (eventMessages.Count > 0)
             {
-                foreach (string msg in eventMessages)
-                {
+                foreach (MqttMessage_jj msg in eventMessages)
                     ProcessMessage(msg);
-                }
+
                 eventMessages.Clear();
             }
             if (updateUI)
-            {
                 UpdateUI();
-            }
         }
 
         private void OnDestroy()

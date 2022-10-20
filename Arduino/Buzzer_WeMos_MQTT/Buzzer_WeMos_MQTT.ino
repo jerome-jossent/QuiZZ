@@ -2,7 +2,17 @@
 //port série en 9600
 //fils bouton sur D1 & GND
 
-#define NAME "Jaune 1"
+#define NAME "Vert 1"
+//#define NAME "Jaune 1"
+//#define NAME "Rouge 1"
+//#define NAME "Bleu 1"
+//#define NAME "Vert 2"
+//#define NAME "Jaune 2"
+//#define NAME "Rouge 2"
+//#define NAME "Bleu 2"
+
+//#define DEBUG true
+#define DEBUG false
 
 #include <ESP8266WiFi.h>
 #include <Ticker.h>
@@ -38,31 +48,37 @@ const long interval = 10000;        // Interval at which to publish sensor readi
 int btn_state_prev;
 
 void connectToWifi() {
-  Serial.println("Connecting to Wi-Fi...");
+  if (DEBUG) Serial.print("Connecting to Wi-Fi... ");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 }
+
 void onWifiConnect(const WiFiEventStationModeGotIP& event) {
-  Serial.println("Connected to Wi-Fi.");
+  if (DEBUG) Serial.println("Connected !");
   connectToMqtt();
 }
+
 void onWifiDisconnect(const WiFiEventStationModeDisconnected& event) {
-  Serial.println("Disconnected from Wi-Fi.");
+  if (DEBUG) Serial.println("Disconnected from Wi-Fi.");
   mqttReconnectTimer.detach(); // ensure we don't reconnect to MQTT while reconnecting to Wi-Fi
   wifiReconnectTimer.once(2, connectToWifi);
 }
+
 void connectToMqtt() {
-  Serial.println("Connecting to MQTT...");
+  if (DEBUG) Serial.print("Connecting to MQTT... ");
   mqttClient.connect();
 }
-void onMqttConnect(bool sessionPresent) {
-  Serial.println("Connected !");
-  Serial.print("Session present : ");
-  Serial.println(sessionPresent);
 
+void onMqttConnect(bool sessionPresent) {
+  if (DEBUG)   
+  {  Serial.println("Connected !");
+    Serial.print("Session present : ");
+    Serial.println(sessionPresent);
+  }
   NewPlayer();
 }
+
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
-  Serial.println("Disconnected from MQTT.");
+  if (DEBUG) Serial.println("Disconnected from MQTT.");
   if (WiFi.isConnected()) {
     mqttReconnectTimer.once(2, connectToMqtt);
   }
@@ -73,8 +89,8 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 // }
 
 void setup() {
-  Serial.begin(BAUDS);
-  Serial.println("*************BUZZER***************");
+  if (DEBUG) Serial.begin(BAUDS);
+  if (DEBUG) Serial.println("*************BUZZER***************");
   
   pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
   pinMode(PIN_BUZZ, INPUT_PULLUP);
@@ -92,24 +108,22 @@ void setup() {
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
   // If your broker requires authentication (username and password), set them below
   //mqttClient.setCredentials("REPlACE_WITH_YOUR_USER", "REPLACE_WITH_YOUR_PASSWORD");
-  connectToWifi();
 
   previousMillis = millis();
   btn_state_prev = digitalRead(PIN_BUZZ);
-  Serial.println("setup ok"); 
+  if (DEBUG) Serial.println("Setup ok");
+  
+  connectToWifi();
 }
 
-
-void Publish(char* topic, char* value, bool retain = false, uint qos = 2)
-{
+void Publish(char* topic, char* value, bool retain = false, uint qos = 2) {
   // qos (0) At most once, (1) At least once, (2) Exactly once.  
   uint16_t packetIdPub1 = mqttClient.publish(topic, qos, retain, value);
-  Serial.printf("Topic \"%s\" at QoS %i, packetId: %i Message: \"%s\" \n", 
+  if (DEBUG) Serial.printf("Topic \"%s\" at QoS %i, packetId: %i Message: \"%s\" \n", 
                 topic, qos, packetIdPub1, value);
 }
 
-void loop(){
-  
+void loop() {  
   int btn_state = digitalRead(PIN_BUZZ);
   
   if (btn_state != btn_state_prev)
@@ -120,11 +134,9 @@ void loop(){
       btn_state_prev = btn_state;
       previousMillis = currentMillis;
       
-      if (btn_state){
-        Serial.println("unpushed");
+      if (btn_state) {
         BUZZ_Unpushed();
-      }else{
-        Serial.println("pushed");
+      } else {
         BUZZ_Pushed();
       }
     }
@@ -135,21 +147,24 @@ void NewPlayer(){
   //Subscribe()
   Publish(MQTT_PUB_TOPIC0, NAME, false, 1);
 
-  String s = String(NAME) + " ON";
+  String s = String(NAME) + ";ON";
   s.toCharArray(msg_buz_ON, s.length() + 1);
   
-  s = String(NAME) + " OFF";
+  s = String(NAME) + ";OFF";
   s.toCharArray(msg_buz_OFF, s.length() + 1);
   
-  delay(100);
+  //Set built-in Led Off
+  digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void BUZZ_Pushed(){
+  if (DEBUG) Serial.println("pushed");
   Publish(MQTT_PUB_TOPIC2, msg_buz_ON);  
   digitalWrite(LED_BUILTIN, LOW);
 }
 
 void BUZZ_Unpushed(){
+  if (DEBUG) Serial.println("unpushed");
   Publish(MQTT_PUB_TOPIC2, msg_buz_OFF);  
   digitalWrite(LED_BUILTIN, HIGH);
 }
