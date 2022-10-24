@@ -4,18 +4,32 @@ using UnityEngine;
 
 public class QuiZZ_Management : MonoBehaviour
 {
+    public string path = @"D:\Projets\QuiZZ\Ressources\Quizz\quizz.xlsx";
+    public List<Question> questions;
+
+    public TMPro.TMP_Text txt_question1;
+
     // Start is called before the first frame update
     void Start()
     {
+        questions = Questions._SetQuestions(path);
+        _NewQuestion_Random();
     }
 
+    public void _NewQuestion_Random()
+    {
+        int i = Random.Range(0, questions.Count);
+        Question q = questions[i];
+        Debug.Log(q);
+        txt_question1.text = q.ToString();
+    }
 
 
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //chargement du fichier data Quizz

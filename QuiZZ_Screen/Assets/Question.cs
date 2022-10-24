@@ -28,25 +28,23 @@ public class Question
     public Question(ExcelTable table, int row)
     {
         int i = 1;
-        Question q = new Question();
-        q.index = GetInt(table, row, i++);
-        q.nature = GetString(table, row, i++);
-        q.theme1 = GetString(table, row, i++);
-        q.theme2 = GetString(table, row, i++);
-        q.theme3 = GetString(table, row, i++);
-        q.question1 = GetString(table, row, i++);
-        q.question2 = GetString(table, row, i++);
-        q.fichier = GetString(table, row, i++);
-        q.reponse1 = GetString(table, row, i++);
-        q.reponse2 = GetString(table, row, i++);
-        q.dossier = GetString(table, row, i++);
-        q.debutfichier = GetString(table, row, i++);
-        q.finfichier = GetString(table, row, i++);
-        q.indice1 = GetString(table, row, i++);
-        q.indice2 = GetString(table, row, i++);
-        q.indice3 = GetString(table, row, i++);
-        q.niveaudifficultequestion1 = GetString(table, row, i++);
-        q.niveaudifficultequestion2 = GetString(table, row, i++);
+        nature = GetString(table, i++, row);
+        theme1 = GetString(table, i++, row);
+        theme2 = GetString(table, i++, row);
+        theme3 = GetString(table, i++, row);
+        question1 = GetString(table, i++, row);
+        question2 = GetString(table, i++, row);
+        fichier = GetString(table, i++, row);
+        reponse1 = GetString(table, i++, row);
+        reponse2 = GetString(table, i++, row);
+        dossier = GetString(table, i++, row);
+        debutfichier = GetString(table, i++, row);
+        finfichier = GetString(table, i++, row);
+        indice1 = GetString(table, i++, row);
+        indice2 = GetString(table, i++, row);
+        indice3 = GetString(table, i++, row);
+        niveaudifficultequestion1 = GetString(table, i++, row);
+        niveaudifficultequestion2 = GetString(table, i++, row);
     }
 
     string GetString(ExcelTable table, int col, int row)
@@ -67,37 +65,25 @@ public class Question
         }
     }
 
-    //Question FromVals(int index, 
-    //    string nature, 
-    //    string theme1, string theme2, string theme3, 
-    //    string question1, string question2, 
-    //    string fichier, 
-    //    string reponse1, string reponse2, 
-    //    string dossier, 
-    //    string debutfichier, string finfichier, 
-    //    string indice1, string indice2, string indice3, 
-    //    string niveaudifficultequestion1, string niveaudifficultequestion2)
-    //{
-    //    Question q = new Question();
-    //    q.index = index;
-    //    q.nature = nature;
-    //    q.theme1 = theme1;
-    //    q.theme2 = theme2;
-    //    q.theme3 = theme3;
-    //    q.question1 = question1;
-    //    q.question2 = question2;
-    //    q.fichier = fichier;
-    //    q.reponse1 = reponse1;
-    //    q.reponse2 = reponse2;
-    //    q.dossier = dossier;
-    //    q.debutfichier = debutfichier;
-    //    q.finfichier = finfichier;
-    //    q.indice1 = indice1;
-    //    q.indice2 = indice2;
-    //    q.indice3 = indice3;
-    //    q.niveaudifficultequestion1 = niveaudifficultequestion1;
-    //    q.niveaudifficultequestion2 = niveaudifficultequestion2;
-
-    //    return q;
-    //}
+    public override string ToString()
+    {
+        return "[" + index + "] " +
+               nature + " " +
+               theme1 + " " +
+               theme2 + " " +
+               theme3 + " " +
+               question1 + " " +
+               question2 + " " +
+               fichier + " " +
+               reponse1 + " " +
+               reponse2 + " " +
+               dossier + " " +
+               debutfichier + " " +
+               finfichier + " " +
+               indice1 + " " +
+               indice2 + " " +
+               indice3 + " " +
+               niveaudifficultequestion1 + " " +
+               niveaudifficultequestion2;
+    }
 }
