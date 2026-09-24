@@ -159,7 +159,7 @@ namespace M2MqttUnity.Examples
                 {
                     connectButton.interactable = true;
                     disconnectButton.interactable = false;
-                    testPublishButton.interactable = false;
+                    if (testPublishButton != null) testPublishButton.interactable = false;
                 }
             }
             else

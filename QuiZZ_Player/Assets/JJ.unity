@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 271683909}
-  - component: {fileID: 271683908}
+  - component: {fileID: 271683910}
   m_Layer: 0
   m_Name: MQTT
   m_TagString: Untagged
@@ -140,35 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &271683908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 271683907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbaa80705124f9e439d56ca6d5e6db69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brokerAddress: localhost
-  brokerPort: 1883
-  isEncrypted: 0
-  connectionDelay: 500
-  timeoutOnConnection: 30000
-  autoConnect: 0
-  mqttUserName: 
-  mqttPassword: 
-  autoTest: 0
-  consoleInputField: {fileID: 1945988559}
-  encryptedToggle: {fileID: 0}
-  addressInputField: {fileID: 360752196}
-  portInputField: {fileID: 1858377967}
-  connectButton: {fileID: 1569646034}
-  disconnectButton: {fileID: 1781704061}
-  testPublishButton: {fileID: 0}
-  clearButton: {fileID: 0}
 --- !u!4 &271683909
 Transform:
   m_ObjectHideFlags: 0
@@ -182,8 +153,29 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &271683910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271683907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0943be5fcdfedfa4c9ea21605fb3cd50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokerAddress: localhost
+  brokerPort: 1883
+  isEncrypted: 0
+  connectionDelay: 500
+  timeoutOnConnection: 30000
+  autoConnect: 1
+  mqttUserName: 
+  mqttPassword: 
+  topics_readonly: []
 --- !u!1 &360752192
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +485,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &763505031
 GameObject:
@@ -928,7 +920,7 @@ RectTransform:
   - {fileID: 830354391}
   - {fileID: 826662790}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1377,7 +1369,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 271683908}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: M2MqttUnity.M2MqttUnityClient, Assembly-CSharp
         m_MethodName: Connect
         m_Mode: 1
@@ -1452,7 +1444,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 271683908}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: M2MqttUnity.M2MqttUnityClient, Assembly-CSharp
         m_MethodName: Disconnect
         m_Mode: 1
@@ -2101,7 +2093,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2052347294
 GameObject:
